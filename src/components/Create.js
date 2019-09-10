@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 
+import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+
+
 const Create = props => {
-  const initialNote = { name: "", img: "" };
-  const [newNote, setNewNote] = useState(initialNote);
+  const initialAvenger = { name: "", img: "" };
+  const [newAvenger, setNewAvenger] = useState(initialAvenger);
 
   const handleChange = event => {
-    setNewNote({
-      ...newNote,
+    setNewAvenger({
+      ...newAvenger,
       [event.target.name]: event.target.value
     });
   };
@@ -14,35 +17,45 @@ const Create = props => {
   const handleSubmit = event => {
     event.preventDefault();
 
-    if (!newNote.name || !newNote.img) {
+    if (!newAvenger.name || !newAvenger.img) {
       alert("Please fill out both fields!");
     } else {
-      props.setNotes([newNote, ...props.notes]);
-      props.history.push('/');
+      props.setAvengers([newAvenger, ...props.avengers]);
+      props.history.push('/avengers');
       resetForm();
     }
   };
 
   const resetForm = () => {
-    setNewNote(initialNote);
+    setNewAvenger(initialAvenger);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        onChange={handleChange}
-        value={newNote.name}
-      />
-      <textarea name="img" onChange={handleChange} value={newNote.img} />
+    <Form onSubmit={handleSubmit}>
+        <FormGroup>
+            <Input
+            type="text"
+            name="name"
+            placeholder="Name"
+            onChange={handleChange}
+            value={newAvenger.name}/>
+            
+        </FormGroup>
 
-      <button type="submit">Submit</button>
-      <button type="button" onClick={resetForm}>
+        <FormGroup row>
+          <Label for="exampleText" sm={2}>Image URL</Label>
+          <Col sm={10}>
+            <Input onChange={handleChange} type="textarea" name="img" id="exampleText" />
+          </Col>
+        </FormGroup>
+      
+      {/* <textarea name="img" onChange={handleChange} value={newNote.img} /> */}
+
+      <Button type="submit">Submit</Button>
+      <Button type="button" onClick={resetForm}>
         Reset
-      </button>
-    </form>
+      </Button>
+    </Form>
   );
 };
 
