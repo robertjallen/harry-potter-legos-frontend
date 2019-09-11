@@ -6,16 +6,15 @@ import {
   } from 'reactstrap';
 
 
-function Avengers(props) {
+function AvengersList(props) {
 
     const createRoute = () => {props.history.push('/form')}
-    const deleteRoute = () => {
-        console.log(props)
-    }
-
+    
+    console.log(props)
 
   return (
       <>
+      <h1>My Characters</h1>
       <Button color="primary" size="lg" onClick={createRoute}>Add Character</Button>
       <div className="characters-list-wrapper">
       {props.avengers.map((avenger, index) => (
@@ -25,7 +24,7 @@ function Avengers(props) {
               <CardBody>
                 <CardTitle>{avenger.name}</CardTitle>
                 <Button color="info" size="sm">Edit</Button>
-                <Button onClick={deleteRoute} color="danger" size="sm">Delete</Button>
+                <Button onClick={() => props.deleteRoute(avenger.id)} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>
@@ -35,4 +34,4 @@ function Avengers(props) {
   );
 }
 
-export default Avengers;
+export default AvengersList;
