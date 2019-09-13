@@ -1,62 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { withFormik, Form, Field } from 'formik'
+import * as yup from 'yup'
+import axios from 'axios'
 
-import { Button, Form, FormGroup, Label, Input, Col } from 'reactstrap';
+const Create = (props) => {
+  console.log(props)
 
+  const createHomeRoute = () => {props.history.push('/avengers')}
 
-const Create = props => {
-  const initialAvenger = { name: "", img: "" };
-  const [newAvenger, setNewAvenger] = useState(initialAvenger);
+  const [newAvenger, setNewAvenger] = useState([]);
 
-  const handleChange = event => {
-    setNewAvenger({
-      ...newAvenger,
-      [event.target.name]: event.target.value
-    });
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-
-    if (!newAvenger.name || !newAvenger.img) {
-      alert("Please fill out both fields!");
-    } else {
-      props.setAvengers([newAvenger, ...props.avengers]);
-      props.history.push('/avengers');
-      resetForm();
+  useEffect(() => {
+    // make sure status is not undefined first (which it will be on page load)
+    if (props.status) {
+      setNewAvenger([ ...newAvenger, props.status ])
+      props.setAvengers([props.status, ...props.avengers]);
+      console.log(props.status)
+      createHomeRoute();
     }
-  };
-
-  const resetForm = () => {
-    setNewAvenger(initialAvenger);
-  };
+  }, [props.status])
 
   return (
-    <Form onSubmit={handleSubmit}>
-        <FormGroup>
-            <Input
-            type="text"
-            name="name"
-            placeholder="Name"
-            onChange={handleChange}
-            value={newAvenger.name}/>
-            
-        </FormGroup>
-
-        <FormGroup row>
-          <Label for="exampleText" sm={2}>Image URL</Label>
-          <Col sm={10}>
-            <Input onChange={handleChange} type="textarea" name="img" id="exampleText" />
-          </Col>
-        </FormGroup>
-      
-      {/* <textarea name="img" onChange={handleChange} value={newNote.img} /> */}
-
-      <Button type="submit">Submit</Button>
-      <Button type="button" onClick={resetForm}>
-        Reset
-      </Button>
+    <Form>
+      <Field type="text" name="name" placeholder="Name"/>    
+      <Field type="textarea" name="img" placeholder="Image URL"/>
+      <button type="submit">Submit</button>
     </Form>
   );
 };
 
-export default Create;
+export default withFormik({
+  // Values come from formik automatically --- magic!
+  mapPropsToValues: (values) => {
+    // this makes these inputs "controlled", sets the values automatically for us
+    return {
+      // these keys line up with the "name" attribute on our Fields
+      name: values.name || '',
+      img: values.img || ''
+    }
+  },
+  // Formik won't allow our form to submit if any of these validation errors don't pass
+  validationSchema: yup.object().shape({
+    name: yup.string().required('Species is required!'),
+    img: yup.string().required('Diet is required!')
+  }),
+  // Formik hooks this up to our form automatically. Runs when all validations pass and the form is submitted
+  handleSubmit: (values, { setStatus }) => {
+    // Send our data to an outside API
+    axios.post('https://reqres.in/api/avengers', values)
+      .then((res) => {
+        // Result came back succecssfully. We need to send the data back to our component
+        // (since we're in an HOC), so Formik uses `setStatus` for that. Which will send the res.data
+        // object back to the component as a prop (accessed with props.status, as seen above)
+        console.log(res.data)
+        setStatus(res.data)
+      })
+      .catch((err) => {
+        console.log('Error:', err)
+      })
+  }
+})(Create)

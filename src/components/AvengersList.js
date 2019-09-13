@@ -8,9 +8,7 @@ import {
 
 function AvengersList(props) {
 
-    const createRoute = () => {props.history.push('/form')}
-    
-    console.log(props)
+  const createRoute = () => {props.history.push('/form')}
 
   return (
       <>
@@ -23,7 +21,7 @@ function AvengersList(props) {
               <CardImg src={avenger.img} alt={avenger.name}/>
               <CardBody>
                 <CardTitle>{avenger.name}</CardTitle>
-                <Button color="info" size="sm">Edit</Button>
+                <Button onClick={() => props.editRoute(avenger.id)} color="info" size="sm">Edit</Button>
                 <Button onClick={() => props.deleteRoute(avenger.id)} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
