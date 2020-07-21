@@ -1,7 +1,7 @@
 import React from 'react'
 import '../App.css'
 
-export default function Avenger(props) {
+export default function Lego(props) {
     console.log(props)
     const id = props.match.params.id;
     console.log(id)

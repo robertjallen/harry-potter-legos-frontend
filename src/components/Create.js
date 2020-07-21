@@ -1,64 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { withFormik, Form, Field } from 'formik'
-import * as yup from 'yup'
-import axios from 'axios'
+import React, { useState } from "react";
+import {post} from '../actions';
+import { useSelector, useDispatch } from "react-redux";
 
-const Create = (props) => {
-  console.log(props)
+const Create = props => {
 
-  const createHomeRoute = () => {props.history.push('/avengers')}
+  const dispatch = useDispatch();
 
-  const [newAvenger, setNewAvenger] = useState([]);
+  const initialLego = { name: "", description: "", image: ""};
 
-  useEffect(() => {
-    // make sure status is not undefined first (which it will be on page load)
-    if (props.status) {
-      setNewAvenger([ ...newAvenger, props.status ])
-      props.setAvengers([props.status, ...props.avengers]);
-      console.log(props.status)
-      createHomeRoute();
+  const [newLego, setNewLego] = useState(initialLego);
+
+  const handleChange = event => {
+    setNewLego({
+      ...newLego,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    if (!newLego.name || !newLego.description || !newLego.image) {
+      alert("Please fill out all fields!");
+    } else {
+      dispatch(post(newLego))
+      // props.setLegos([newLego, ...props.legos]);
+      resetForm();
     }
-  }, [props.status])
+  };
+
+  const resetForm = () => {
+    setNewLego(initialLego);
+  };
 
   return (
-    <Form>
-      <Field type="text" name="name" placeholder="Name"/>
-      <Field type="text" name="description" placeholder="description"/>        
-      <Field type="textarea" name="image" placeholder="Image URL"/>
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        onChange={handleChange}
+        value={newLego.name}
+      />
+      <input
+        type="text"
+        name="image"
+        placeholder="Image URL"
+        onChange={handleChange}
+        value={newLego.image}
+      />
+      <textarea name="description" onChange={handleChange} value={newLego.description}  placeholder="Description"/>
+
       <button type="submit">Submit</button>
-    </Form>
+      <button type="button" onClick={resetForm}>
+        Reset
+      </button>
+    </form>
   );
 };
 
-export default withFormik({
-  // Values come from formik automatically --- magic!
-  mapPropsToValues: (values) => {
-    // this makes these inputs "controlled", sets the values automatically for us
-    return {
-      // these keys line up with the "name" attribute on our Fields
-      name: values.name || '',
-      image: values.image || '',
-      description: values.description || ''
-    }
-  },
-  // Formik won't allow our form to submit if any of these validation errors don't pass
-  validationSchema: yup.object().shape({
-    name: yup.string().required('Species is required!'),
-    img: yup.string().required('Diet is required!')
-  }),
-  // Formik hooks this up to our form automatically. Runs when all validations pass and the form is submitted
-  handleSubmit: (values, { setStatus }) => {
-    // Send our data to an outside API
-    axios.post('https://harry-potter-legos.herokuapp.com/api/legos', values)
-      .then((res) => {
-        // Result came back succecssfully. We need to send the data back to our component
-        // (since we're in an HOC), so Formik uses `setStatus` for that. Which will send the res.data
-        // object back to the component as a prop (accessed with props.status, as seen above)
-        console.log("res data", res.data)
-        setStatus(res.data)
-      })
-      .catch((err) => {
-        console.log('Error:', err)
-      })
-  }
-})(Create)
+export default Create;

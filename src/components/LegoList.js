@@ -6,7 +6,7 @@ import {
   } from 'reactstrap';
 
 
-function AvengersList(props) {
+function LegoList(props) {
   console.log(props.state.legos)
 
   const createRoute = () => {props.history.push('/form')}
@@ -18,7 +18,7 @@ function AvengersList(props) {
       <div className="characters-list-wrapper">
       {props.state.legos.map((lego, index) => (
           <Card color="warning" className="character-card" key={index}>
-            <Link to={`/avenger/${lego.id}`}></Link>
+            <Link to={`/legos/${lego.id}`}></Link>
               <CardImg src={lego.image} alt={lego.name}/>
               <CardBody>
                 <CardTitle>{lego.name}</CardTitle>
@@ -34,4 +34,4 @@ function AvengersList(props) {
   );
 }
 
-export default AvengersList;
+export default LegoList;
