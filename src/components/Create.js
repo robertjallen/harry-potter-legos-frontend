@@ -22,8 +22,9 @@ const Create = (props) => {
 
   return (
     <Form>
-      <Field type="text" name="name" placeholder="Name"/>    
-      <Field type="textarea" name="img" placeholder="Image URL"/>
+      <Field type="text" name="name" placeholder="Name"/>
+      <Field type="text" name="description" placeholder="description"/>        
+      <Field type="textarea" name="image" placeholder="Image URL"/>
       <button type="submit">Submit</button>
     </Form>
   );
@@ -36,7 +37,8 @@ export default withFormik({
     return {
       // these keys line up with the "name" attribute on our Fields
       name: values.name || '',
-      img: values.img || ''
+      image: values.image || '',
+      description: values.description || ''
     }
   },
   // Formik won't allow our form to submit if any of these validation errors don't pass
@@ -47,12 +49,12 @@ export default withFormik({
   // Formik hooks this up to our form automatically. Runs when all validations pass and the form is submitted
   handleSubmit: (values, { setStatus }) => {
     // Send our data to an outside API
-    axios.post('https://reqres.in/api/avengers', values)
+    axios.post('https://harry-potter-legos.herokuapp.com/api/legos', values)
       .then((res) => {
         // Result came back succecssfully. We need to send the data back to our component
         // (since we're in an HOC), so Formik uses `setStatus` for that. Which will send the res.data
         // object back to the component as a prop (accessed with props.status, as seen above)
-        console.log(res.data)
+        console.log("res data", res.data)
         setStatus(res.data)
       })
       .catch((err) => {
