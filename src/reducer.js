@@ -57,6 +57,25 @@ export function reducer(state = initialState, action) {
         error: action.payload,
         isLoading: false
       };
+
+    //DELETE LEGOS REDUCER CASES
+    case DELETE_START:
+      return {
+        ...state,
+        isLoading: true
+      };
+    case DELETE_SUCCESS:
+      return {
+        ...state,
+        legos: [...action.payload],
+        isLoading: false
+      };
+    case DELETE_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false
+      };
     
     default:
       return state;
