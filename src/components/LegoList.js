@@ -12,7 +12,7 @@ function LegoList(props) {
   console.log(props.state.legos)
 
   const createRoute = () => {props.history.push('/form')}
-
+  const remove = useDispatch(deleteLego(ID)) 
   return (
       <>
       <h1>MEGANS HARRY POTTER LEGO SETS</h1>
@@ -26,7 +26,7 @@ function LegoList(props) {
                 <CardTitle>{lego.name}</CardTitle>
                 <CardTitle>{lego.description}</CardTitle>
                 <Button onClick={() => props.editRoute(lego.id)} color="info" size="sm">Edit</Button>
-                <Button onClick={() => useDispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
+                <Button onClick={() => remove(lego.id)} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>
