@@ -5,6 +5,9 @@ import {
   POST_START,
   POST_SUCCESS,
   POST_ERROR,
+  DELETE_START,
+  DELETE_SUCCESS,
+  DELETE_ERROR,
 } from "./actions";
 
 

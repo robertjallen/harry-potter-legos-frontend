@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {post} from '../actions';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Create = props => {
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 import {deleteLego} from '../actions';
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
     Card, CardImg,
     CardTitle, Button, CardBody
@@ -12,10 +12,10 @@ function LegoList(props) {
   console.log(props.state.legos)
 
   const createRoute = () => {props.history.push('/form')}
-  
-  const remove = (ID) => {
-    return  useDispatch(deleteLego(ID))
-  }
+  const dispatch = useDispatch()
+  // const remove = (ID) => {
+  //   return  useDispatch(deleteLego(ID))
+  // }
 
   return (
       <>
@@ -30,7 +30,7 @@ function LegoList(props) {
                 <CardTitle>{lego.name}</CardTitle>
                 <CardTitle>{lego.description}</CardTitle>
                 <Button onClick={() => props.editRoute(lego.id)} color="info" size="sm">Edit</Button>
-                <Button onClick={() => remove(lego.id)} color="danger" size="sm">Delete</Button>
+                <Button onClick={dispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>
