@@ -30,7 +30,7 @@ function LegoList(props) {
                 <CardTitle>{lego.name}</CardTitle>
                 <CardTitle>{lego.description}</CardTitle>
                 <Button onClick={() => props.editRoute(lego.id)} color="info" size="sm">Edit</Button>
-                <Button onClick={dispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
+                <Button onClick={() => dispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>
