@@ -12,7 +12,9 @@ function LegoList(props) {
   console.log(props.state.legos)
 
   const createRoute = () => {props.history.push('/form')}
-  const remove = useDispatch(deleteLego(ID)) 
+  
+  const remove = (ID) => useDispatch(deleteLego(ID))
+   
   return (
       <>
       <h1>MEGANS HARRY POTTER LEGO SETS</h1>
