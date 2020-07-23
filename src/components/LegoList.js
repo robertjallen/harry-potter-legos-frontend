@@ -1,5 +1,7 @@
 import React from "react";
 import {Link} from 'react-router-dom';
+import {deleteLego} from '../actions';
+import { useSelector, useDispatch } from "react-redux";
 import {
     Card, CardImg,
     CardTitle, Button, CardBody
@@ -24,7 +26,7 @@ function LegoList(props) {
                 <CardTitle>{lego.name}</CardTitle>
                 <CardTitle>{lego.description}</CardTitle>
                 <Button onClick={() => props.editRoute(lego.id)} color="info" size="sm">Edit</Button>
-                <Button onClick={() => props.deleteRoute(lego.id)} color="danger" size="sm">Delete</Button>
+                <Button onClick={() => useDispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>

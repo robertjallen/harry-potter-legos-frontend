@@ -10,6 +10,11 @@ export const POST_START = "POST_START";
 export const POST_SUCCESS = "POST_SUCCESS";
 export const POST_ERROR = "POST_ERROR";
 
+//DELETE
+export const DELETE_START = "DELETE_START";
+export const DELETE_SUCCESS = "DELETE_SUCCESS";
+export const DELETE_ERROR = "DELETE_ERROR";
+
 export function fetch() {
 
   // this is our "thunk" function. redux-thunk middleware
@@ -56,3 +61,27 @@ export function post(lego) {
       });
   };
 }
+
+export function deleteLego(ID) {
+
+  // this is our "thunk" function. redux-thunk middleware
+  // automatically gives us access to the dispatcher as a parameter
+  return dispatch => {
+    // we can kick off as many actions as we want,
+    // whenever we want. allows our action creator to be asyncronous.
+    dispatch({ type: DELETE_START });
+    axios
+      .delete(
+        `https://harry-potter-legos.herokuapp.com/api/legos/${ID}`)
+      .then(res => {
+        // Code for handling API response
+        console.log("LEGOS", res.data);
+        dispatch({ type: DELETE_SUCCESS, payload: res.data });
+      })
+      .catch(function() {
+        // Code for handling errors
+      });
+  };
+}
+
+
