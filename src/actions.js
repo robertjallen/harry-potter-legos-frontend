@@ -16,7 +16,6 @@ export const DELETE_SUCCESS = "DELETE_SUCCESS";
 export const DELETE_ERROR = "DELETE_ERROR";
 
 export function fetch() {
-
   // this is our "thunk" function. redux-thunk middleware
   // automatically gives us access to the dispatcher as a parameter
   return dispatch => {

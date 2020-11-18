@@ -26,6 +26,8 @@ const Create = props => {
       dispatch(post(newLego))
       // props.setLegos([newLego, ...props.legos]);
       resetForm();
+      props.history.push('/')
+      console.log(props)
     }
   };
 

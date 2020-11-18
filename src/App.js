@@ -34,8 +34,8 @@ function App(props) {
 
   return (
     <div className="App">
-      <Route exact path='/' component={Home}/>
-      <Route exact path='/legos' render={props => <LegoList {...props} state={state}/> }/>
+      {/* <Route exact path='/' component={Home}/> */}
+      <Route exact path='/' render={props => <LegoList {...props} state={state}/> }/>
       <Route exact path='/form' render={props => <Create {...props} state={state}/>}/>
       <Route path='/form/:id' render={props => <Create {...props} state={state}/>}/>
       <Route path='/legos/:id' render={(props) => <Lego {...props} state={state}/>}/>
