@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from 'react-router-dom';
-import {deleteLego} from '../actions';
-import { useDispatch } from "react-redux";
+import {deleteLego, fetch} from '../actions';
+import { connect } from "react-redux";
 import {
     Card, CardImg,
     CardTitle, Button, CardBody
@@ -9,20 +9,34 @@ import {
 
 
 function LegoList(props) {
-  console.log(props.state.legos)
-
+  console.log(props)
+  const [legoState, setLegoState] = useState([])
+  const {fetch, deleteLego} = props
   const createRoute = () => {props.history.push('/form')}
-  const dispatch = useDispatch()
-  // const remove = (ID) => {
-  //   return  useDispatch(deleteLego(ID))
-  // }
 
-  return (
+  useEffect(() => {
+    if(fetch){
+      fetch()
+      console.log(props)
+    }
+  },[])
+
+  useEffect(() => {
+      setLegoState(props.legos)
+   }, [props.legos])
+  
+
+  if (props.isLoading) {
+      return (<>...</>)
+   } else {
+
+    return (
+    
       <>
       <h1>MEGANS HARRY POTTER LEGO SETS</h1>
       <Button color="primary" size="lg" onClick={createRoute}>ADD LEGOS</Button>
       <div className="characters-list-wrapper">
-      {props.state.legos.map((lego, index) => (
+      {legoState.map((lego, index) => (
           <Card color="warning" className="character-card" key={index}>
             <Link to={`/legos/${lego.id}`}></Link>
               <CardImg src={lego.image} alt={lego.name}/>
@@ -30,7 +44,7 @@ function LegoList(props) {
                 <CardTitle>{lego.name}</CardTitle>
                 <CardTitle>{lego.description}</CardTitle>
                 <Button onClick={() => props.editRoute(lego.id)} color="info" size="sm">Edit</Button>
-                <Button onClick={() => dispatch(deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
+                <Button onClick={() => (deleteLego(lego.id))} color="danger" size="sm">Delete</Button>
               </CardBody>
             <Link />
           </Card>
@@ -38,6 +52,18 @@ function LegoList(props) {
     </div>
     </>
   );
+  }
+
 }
 
-export default LegoList;
+const mapStateToProps = (state) => {
+  const legos = state.legos || []
+  const isLoading = state.isLoading || false
+  return {
+    legos,
+    isLoading
+  }
+  console.log(state)
+}
+
+export default connect(mapStateToProps, {deleteLego, fetch})(LegoList);

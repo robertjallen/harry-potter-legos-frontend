@@ -1,21 +1,27 @@
-import React, { useEffect} from 'react';
+import React from 'react';
 import './App.css';
 import {Route} from 'react-router-dom'
 import Create from "./components/Create";
 import LegoList from "./components/LegoList";
-import {fetch} from './actions';
+// import {fetch} from './actions';
 import Lego from './components/Lego';
-import Home from './components/Home';
-import { useSelector, useDispatch } from "react-redux";
+// import Home from './components/Home';
+// import { useSelector} from "react-redux";
 
 
 function App(props) {
-  const dispatch = useDispatch();
-  const state = useSelector(state => state);
+  
+  // const dispatch = useDispatch();
+  // const state = useSelector(state => state);
 
-  useEffect(() => {
-    dispatch(fetch())
-  },[])
+  // useEffect(() => {
+  //   dispatch(fetch())
+  // },[])
+
+
+  // console.log(state.legos)
+
+
 
   // const [avengers, setAvengers] = useState([]);
   
@@ -35,10 +41,10 @@ function App(props) {
   return (
     <div className="App">
       {/* <Route exact path='/' component={Home}/> */}
-      <Route exact path='/' render={props => <LegoList {...props} state={state}/> }/>
-      <Route exact path='/form' render={props => <Create {...props} state={state}/>}/>
-      <Route path='/form/:id' render={props => <Create {...props} state={state}/>}/>
-      <Route path='/legos/:id' render={(props) => <Lego {...props} state={state}/>}/>
+      <Route exact path='/' render={props => <LegoList {...props} /> }/>
+      <Route exact path='/form' render={props => <Create {...props} />}/>
+      <Route path='/form/:id' render={props => <Create {...props} />}/>
+      <Route path='/legos/:id' render={(props) => <Lego {...props} />}/>
     </div>
   );
 }
